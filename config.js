@@ -3,13 +3,13 @@ import chalk from 'chalk'
 import { fileURLToPath } from 'url'
 
 global.owner = [
-  ['59172945992', 'FG98', true],
-  ['5492622271736'], 
-  ['5492622271736'] 
+  ['6289524664142', 'My Owner', true],
+  ['6282339922441'], 
+  ['6289524664142'] 
 ] //Numeros de owner 
 
-global.mods = ['573125484672'] 
-global.prems = ['50489079501', '5219631769130', '573125484672']
+global.mods = ['6289524664142'] 
+global.prems = ['6289524664142']
 global.APIs = { // API Prefix
   // name: 'https://website'
   xteam: 'https://api.xteam.xyz', 
@@ -25,16 +25,16 @@ global.APIKeys = { // APIKey Here
 }
 
 // Sticker WM
-global.packname = 'DyLux┃ᴮᴼᵀ' 
-global.author = '@fg98' 
-global.fgig = '▢ Sígueme en Instagram\nhttps://www.instagram.com/fg98_ff\n' 
-global.dygp = 'https://chat.whatsapp.com/IO9jmpI72ejHiN4unRZleU'
-global.fgsc = 'https://github.com/FG98F/dylux-fg' 
-global.fgyt = 'https://youtube.com/fg98f'
-global.fgpyp = 'https://paypal.me/fg98f'
-global.fglog = 'https://i.imgur.com/Owmb93c.png' 
+global.packname = 'TsukasaBotz-Md' 
+global.author = '@TsukasaBotz-Md' 
+global.fgig = '▢ ikuti saya di instagram \nhttps://www.instagram.com/jayasantika_26\n' 
+global.dygp = 'https://chat.whatsapp.com/CzI7JlzRUBN88VEFXrK9TI'
+global.fgsc = 'https://github.com/nanzone' 
+global.fgyt = 'http://info-nanzone.nans.tech/'
+global.fgpyp = 'https://saweria.co/nansofficial'
+global.fglog = 'https://telegra.ph/file/8a15db53ed4cca454bc48.jpg' 
 
-global.wait = '*⌛ _Cargando..._*\n*▰▰▰▱▱▱▱▱*'
+global.wait = '*⌛ _Mohon tunggu sebentar..._*'
 global.rwait = '⌛'
 global.dmoji = '🤭'
 global.done = '✅'

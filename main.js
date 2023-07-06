@@ -78,14 +78,14 @@ loadDatabase()
 //-- SESSION
 //global.authFile = `${opts._[0] || 'session'}.data.json`
 //const { state, saveState } = store.useSingleFileAuthState(global.authFile)
-global.authFile = `sessions`
+global.authFile = `session`
 const { state, saveState, saveCreds } = await useMultiFileAuthState(global.authFile)
 
 const connectionOptions = {
   printQRInTerminal: true,
   auth: state,
   logger: pino({ level: 'silent'}),
-  browser: ['dylux-bot','Safari','1.0.0']
+  browser: ['TsukasaBotz','Safari','1.0.0']
 }
 
 global.conn = makeWASocket(connectionOptions)
@@ -118,7 +118,7 @@ async function clearTmp() {
 }
 setInterval(async () => {
 	var a = await clearTmp()
-	console.log(chalk.cyan(`✅  Auto clear  | Se limpio la carpeta tmp`))
+	console.log(chalk.cyan(`Folder tmp berhasil dibersihkan`))
 }, 60000) //1 munto
 
 async function connectionUpdate(update) {
@@ -161,14 +161,14 @@ global.reloadHandler = async function (restatConn) {
     conn.ev.off('creds.update', conn.credsUpdate)
   }
 
-  conn.welcome = 'Hola, @user\nBienvenido a @group'
-  conn.bye = 'adiós @user'
-  conn.spromote = '@user promovió a admin'
-  conn.sdemote = '@user degradado'
-  conn.sDesc = 'La descripción ha sido cambiada a \n@desc'
-  conn.sSubject = 'El nombre del grupo ha sido cambiado a \n@group'
-  conn.sIcon = 'El icono del grupo ha sido cambiado'
-  conn.sRevoke = 'El enlace del grupo ha sido cambiado a \n@revoke'
+  conn.welcome = 'Halo, @user!\nSelamat datang di grup @group'
+  conn.bye = 'Sayonara @user!'
+  conn.spromote = '@user Sekarang adalah admin'
+  conn.sdemote = '@user Bukan admin lagi'
+  conn.sDesc = 'Deskripsi telah diubah menjadi\n@desc'
+  conn.sSubject = 'Nama grup telah diubah menjadi\n@group'
+  conn.sIcon = 'Ikon grup telah diubah'
+  conn.sRevoke = 'Tautan grup telah diubah menjadi\n@revoke'
   conn.handler = handler.handler.bind(global.conn)
   conn.participantsUpdate = handler.participantsUpdate.bind(global.conn)
   conn.groupsUpdate = handler.groupsUpdate.bind(global.conn)

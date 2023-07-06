@@ -34,7 +34,7 @@ export async function handler(chatUpdate) {
         if (!m)
             return
         m.exp = 0
-        m.diamond = false
+        m.limit = false
         try {
             // TODO: use loop to insert data instead of this
             let user = global.db.data.users[m.sender]
@@ -43,8 +43,8 @@ export async function handler(chatUpdate) {
             if (user) {
                 if (!isNumber(user.exp))
                     user.exp = 0
-                if (!isNumber(user.diamond))
-                    user.diamond = 10
+                if (!isNumber(user.limit))
+                    user.limit = 100
                 if (!isNumber(user.lastclaim))
                     user.lastclaim = 0
                 if (!('registered' in user))
@@ -70,7 +70,7 @@ export async function handler(chatUpdate) {
                 if (!isNumber(user.level))
                     user.level = 0
                 if (!('role' in user))
-                    user.role = 'Novato'
+                    user.role = 'Novice'
                 if (!('autolevelup' in user))
                     user.autolevelup = false
                 if (!('chatbot' in user))
@@ -78,7 +78,7 @@ export async function handler(chatUpdate) {
             } else
                 global.db.data.users[m.sender] = {
                     exp: 0,
-                    diamond: 10,
+                    limit: 100,
                     lastclaim: 0,
                     registered: false,
                     name: m.name,
@@ -89,7 +89,7 @@ export async function handler(chatUpdate) {
                     banned: false,
                     warn: 0,
                     level: 0,
-                    role: 'Novato',
+                    role: 'Novice',
                     autolevelup: false,
                     chatbot: false,
                 }
@@ -100,7 +100,7 @@ export async function handler(chatUpdate) {
                 if (!('isBanned' in chat))
                     chat.isBanned = false
                 if (!('welcome' in chat))
-                    chat.welcome = false
+                    chat.welcome = true
                 if (!('detect' in chat))
                     chat.detect = false
                 if (!('sWelcome' in chat))
@@ -114,11 +114,9 @@ export async function handler(chatUpdate) {
                 if (!('delete' in chat))
                     chat.delete = true
                 if (!('antiLink' in chat))
-                    chat.antiLink = false
+                    chat.antiLink = true
                 if (!('viewonce' in chat))
                     chat.viewonce = false
-                if (!('onlyLatinos' in chat))
-                    chat.onlyLatinos = false
                  if (!('nsfw' in chat))
                     chat.nsfw = false
                 if (!isNumber(chat.expired))
@@ -126,17 +124,16 @@ export async function handler(chatUpdate) {
             } else
                 global.db.data.chats[m.chat] = {
                     isBanned: false,
-                    welcome: false,
+                    welcome: true,
                     detect: false,
                     sWelcome: '',
                     sBye: '',
                     sPromote: '',
                     sDemote: '',
                     delete: true,
-                    antiLink: false,
+                    antiLink: true,
                     viewonce: false,
                     useDocument: true,
-                    onlyLatinos: false,
                     nsfw: false, 
                     expired: 0,
                 }
@@ -144,12 +141,12 @@ export async function handler(chatUpdate) {
             if (typeof settings !== 'object') global.db.data.settings[this.user.jid] = {}
             if (settings) {
                 if (!('self' in settings)) settings.self = false
-                if (!('autoread' in settings)) settings.autoread = false
+                if (!('autoread' in settings)) settings.autoread = true
                 if (!('restrict' in settings)) settings.restrict = false
                 if (!('status' in settings)) settings.status = 0
             } else global.db.data.settings[this.user.jid] = {
                 self: false,
-                autoread: false,
+                autoread: true,
                 restrict: false, 
                 status: 0
             }
@@ -337,15 +334,15 @@ export async function handler(chatUpdate) {
                 m.isCommand = true
                 let xp = 'exp' in plugin ? parseInt(plugin.exp) : 17 // XP Earning per command
                 if (xp > 200)
-                    m.reply('chirrido -_-') // Hehehe
+                    m.reply('Ngecit -_-') // Hehehe
                 else
                     m.exp += xp
-                if (!isPrems && plugin.diamond && global.db.data.users[m.sender].diamond < plugin.diamond * 1) {
-                    this.reply(m.chat, `✳️ Tus diamantes se agotaron\nuse el siguiente comando para comprar más diamantes \n*${usedPrefix}buy* <cantidad> \n*${usedPrefix}buyall*`, m)
+                if (!isPrems && plugin.limit && global.db.data.users[m.sender].limit < plugin.limit * 1) {
+                    this.reply(m.chat, `Limit kamu habis\nGunakan perintah berikut untuk membeli lebih banyak limit\n*${usedPrefix}buy* <jumlah> \n*${usedPrefix}buyall*`, m)
                     continue // Limit habis
                 }
                 if (plugin.level > _user.level) {
-                    this.reply(m.chat, `✳️ nivel requerido ${plugin.level} para usar este comando. \nTu nivel ${_user.level}`, m)
+                    this.reply(m.chat, `Tingkat yang diperlukan ${plugin.level} untuk menggunakan perintah ini.\nLevel kamu ${_user.level}`, m)
                     continue // If the level has not been reached
                 }
                 let extra = {
@@ -374,7 +371,7 @@ export async function handler(chatUpdate) {
                 try {
                     await plugin.call(this, m, extra)
                     if (!isPrems)
-                        m.diamond = m.diamond || plugin.diamond || false
+                        m.limit = m.limit || plugin.limit || false
                 } catch (e) {
                     // Error occured
                     m.error = e
@@ -394,8 +391,8 @@ export async function handler(chatUpdate) {
                             console.error(e)
                         }
                     }
-                    if (m.diamond)
-                        m.reply(`Utilizaste *${+m.diamond}* 💎`)
+                    if (m.limit)
+                        m.reply(`*${+m.limit}* Limit telah terpakai`)
                 }
                 break
             }
@@ -413,7 +410,7 @@ export async function handler(chatUpdate) {
         if (m) {
             if (m.sender && (user = global.db.data.users[m.sender])) {
                 user.exp += m.exp
-                user.diamond -= m.diamond * 1
+                user.limit -= m.limit * 1
             }
 
             let stat
@@ -511,11 +508,11 @@ export async function participantsUpdate({ id, participants, action }) {
             }
             break
         case 'promote':
-            text = (chat.sPromote || this.spromote || conn.spromote || '@user ahora es administrador')
+            text = (chat.sPromote || this.spromote || conn.spromote || '@user sekarang adalah admin')
         case 'demote':
             let pp = await this.profilePictureUrl(participants[0], 'image').catch(_ => 'https://i.imgur.com/whjlJSf.jpg') 
             if (!text)
-                text = (chat.sDemote || this.sdemote || conn.sdemote || '@user ya no es administrador')
+                text = (chat.sDemote || this.sdemote || conn.sdemote || '@user bukan lagi admin')
             text = text.replace('@user', '@' + participants[0].split('@')[0])
             if (chat.detect)    
             this.sendFile(id, pp, 'pp.jpg', text, null, false, { mentions: this.parseMention(text) })
@@ -557,13 +554,13 @@ export async function deleteUpdate(message) {
         if (chat.delete)
             return
         await this.reply(msg.chat, `
-≡ Borró un mensaje  
 ┌─⊷  𝘼𝙉𝙏𝙄 𝘿𝙀𝙇𝙀𝙏𝙀 
-▢ *Nombre :* @${participant.split`@`[0]} 
+▢ *Nama :* @${participant.split`@`[0]} 
 └─────────────
-Para desactivar esta función, escriba 
-*/off antidelete*
+Untuk menonaktifkan fitur ini, ketik
 *.enable delete*
+
+_Pesan yang dihapus akan dikirim setelah pesan ini_
 `.trim(), msg, {
             mentions: [participant]
         })
@@ -575,16 +572,16 @@ Para desactivar esta función, escriba
 
 global.dfail = (type, m, conn) => {
     let msg = {
-        rowner: '👑 Este comando solo puede ser utilizado por el *Creador del bot*',
-        owner: '🔱 Este comando solo puede ser utilizado por el *Dueño del Bot*',
-        mods: '🔰  Esta función es solo para *Para moderadores del Bot*',
-        premium: '💠 Este comando es solo para miembros *Premium*\n\nEscribe */premium* para más info',
-        group: '⚙️ ¡Este comando solo se puede usar en grupos!',
-        private: '📮 Este comando solo se puede usar en el chat *privado del Bot*',
-        admin: '🛡️ Este comando es solo para *Admins* del grupo',
-        botAdmin: '💥 ¡Para usar este comando debo ser *Administrador!*',
-        unreg: '📇 Regístrese para usar esta función  Escribiendo:\n\n*/reg nombre.edad*\n\n📌Ejemplo : */reg dylux.16*',
-        restrict: '🔐 Esta característica está *deshabilitada*'
+        rowner: '👑 Perintah ini hanya dapat digunakan oleh *Pembuat bot*',
+        owner: '🔱 Perintah ini hanya dapat digunakan oleh *Pemilik Bot*',
+        mods: '🔰  Fungsi ini hanya untuk *Moderator Bot*',
+        premium: '💠 Perintah ini hanya untuk anggota *Premium*',
+        group: '⚙️ Perintah ini hanya dapat digunakan dalam *Grup Chat*',
+        private: '📮 Perintah ini hanya bisa digunakan di *Private Chat*',
+        admin: '🛡️ Perintah ini hanya untuk *Admin Grup*',
+        botAdmin: '💥 Untuk menggunakan perintah ini bot harus menjadi *Admin*',
+        unreg: '📇 Daftar untuk menggunakan fitur ini ketik:\n\n*/reg name.age*\n\nContoh : */reg manusia.16*',
+        restrict: '🔐 Fitur ini *dinonaktifkan*'
     }[type]
     if (msg) return m.reply(msg)
 }
@@ -592,6 +589,6 @@ global.dfail = (type, m, conn) => {
 let file = global.__filename(import.meta.url, true)
 watchFile(file, async () => {
     unwatchFile(file)
-    console.log(chalk.magenta("✅  Se actualizo 'handler.js'"))
+    console.log(chalk.magenta("Update 'handler.js'"))
     if (global.reloadHandler) console.log(await global.reloadHandler())
 }) 
