@@ -1,34 +1,34 @@
-const items = ['diamond', 'exp']
+const items = ['limit', 'exp']
 let confirmation = {}
 
 async function handler(m, { conn, args, usedPrefix, command }) {
     if (confirmation[m.sender]) return m.reply('estas haciendo una transferencia')
     let user = global.db.data.users[m.sender]
     const item = items.filter(v => v in user && typeof user[v] == 'number')
-    let lol = `✳️ Uso correcto del comamdo 
+    let lol = `Penggunaan perintah yang benar adalah:
 *${usedPrefix + command}*  [tipo] [cantidad] [@user]
 
-📌 Ejemplo : 
+📌 Contoh : 
 *${usedPrefix + command}* exp 65 @${m.sender.split('@')[0]}
 
-📍 Artículos transferibles
+📍 Item yang dapat ditransfer
 ┌──────────────
-▢ *diamond* = Diamante 💎
-▢ *exp* = Experiencia 🆙
+▢ *Limit*
+▢ *Exp*
 └──────────────
 `.trim()
     const type = (args[0] || '').toLowerCase()
     if (!item.includes(type)) return conn.reply(m.chat, lol, m, { mentions: [m.sender] })
     const count = Math.min(Number.MAX_SAFE_INTEGER, Math.max(1, (isNumber(args[1]) ? parseInt(args[1]) : 1))) * 1
     let who = m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : args[2] ? (args[2].replace(/[@ .+-]/g, '') + '@s.whatsapp.net') : ''
-    if (!who) return m.reply('✳️ Taguea al usuario')
-    if (!(who in global.db.data.users)) return m.reply(`✳️ El Usuario no está en mi base de datos`)
-    if (user[type] * 1 < count) return m.reply(`✳️  *${type}*  insuficiente para transferir`)
+    if (!who) return m.reply('Harap tag pengguna!')
+    if (!(who in global.db.data.users)) return m.reply(`Pengguna tidak terdaftar didalam database!`)
+    if (user[type] * 1 < count) return m.reply(`*${type}*  tidak cukup untuk mentransfer`)
     let confirm = `
-¿Está seguro de que desea transferir *${count}* _*${type}*_ a  *@${(who || '').replace(/@s\.whatsapp\.net/g, '')}* ? 
+Apakah kamu yakin ingin mentransfer *${count}* _*${type}*_ a  *@${(who || '').replace(/@s\.whatsapp\.net/g, '')}* ? 
 
-- Tienes  *60s* 
-_responde *si* o *no*_
+- Kamu punya waktu *60s* 
+_Harap merespon *Iya* atau *Tidak*_
 `.trim()
    
     //conn.sendButton(m.chat, confirm, fgig, null, [['si'], ['no']], m, { mentions: [who] })
@@ -39,7 +39,7 @@ _responde *si* o *no*_
         message: m,
         type,
         count,
-        timeout: setTimeout(() => (m.reply('⏳ Se acabó el tiempo'), delete confirmation[m.sender]), 60 * 1000)
+        timeout: setTimeout(() => (m.reply('⏳ Waktu sudah habis\n\n_Transfer dibatalkan!_'), delete confirmation[m.sender]), 60 * 1000)
     }
 }
 
@@ -51,21 +51,21 @@ handler.before = async m => {
     if (m.id === message.id) return
     let user = global.db.data.users[sender]
     let _user = global.db.data.users[to]
-    if (/no?/g.test(m.text.toLowerCase())) {
+    if (/Tidak?/g.test(m.text.toLowerCase())) {
         clearTimeout(timeout)
         delete confirmation[sender]
-        return m.reply('✅ Transferencia Cancelado')
+        return m.reply('Transfer dibatalkan!')
     }
-    if (/si?/g.test(m.text.toLowerCase())) {
+    if (/Iya?/g.test(m.text.toLowerCase())) {
         let previous = user[type] * 1
         let _previous = _user[type] * 1
         user[type] -= count * 1
         _user[type] += count * 1
-        if (previous > user[type] * 1 && _previous < _user[type] * 1) m.reply(`✅ Se realizo la transferencia de \n\n*${count}* *${type}*  a @${(to || '').replace(/@s\.whatsapp\.net/g, '')}`, null, { mentions: [to] })
+        if (previous > user[type] * 1 && _previous < _user[type] * 1) m.reply(`Kamu berhasil mentransfer!\n\nTotal: *${count}* *${type}*  a @${(to || '').replace(/@s\.whatsapp\.net/g, '')}`, null, { mentions: [to] })
         else {
             user[type] = previous
             _user[type] = _previous
-            m.reply(`❎ Error al transferir *${count}* ${type} a *@${(to || '').replace(/@s\.whatsapp\.net/g, '')}*`, null, { mentions: [to] })
+            m.reply(`Pengalihan kesalahan *${count}* ${type} a *@${(to || '').replace(/@s\.whatsapp\.net/g, '')}*`, null, { mentions: [to] })
         }
         clearTimeout(timeout)
         delete confirmation[sender]

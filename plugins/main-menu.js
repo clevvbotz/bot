@@ -5,49 +5,49 @@ import fetch from 'node-fetch'
 import { xpRange } from '../lib/levelling.js'
 //import { plugins } from '../lib/plugins.js'
 let tags = {
-  'main': 'ACERCA DE',
-  'game': 'JUEGOS',
-  'econ': 'NIVEL & ECONOMIA',
-  'rg': 'REGISTRO',
+  'main': 'INFO',
+  'game': 'GAME',
+  'econ': 'LEVEL',
+  'rg': 'RPG',
   'sticker': 'STICKER',
-  'img': 'IMAGEN',
+  'img': 'IMAGE',
   'maker': 'MAKER',
   'prem': 'PREMIUM',
-  'group': 'GRUPO',
-  'nable': 'EN/DISABLE OPCIONES', 
+  'group': 'GROUP',
+  'nable': 'EN/DS FITUR', 
   'nime': 'ANIME',
   'rnime': 'ANIME REACCION',
-  'dl': 'DESCARGAS',
-  'tools': 'TOOLS',
+  'dl': 'DOWNLOADER',
+  'tools', 'tool': 'TOOLS',
   'fun': 'FUN',
   'cmd': 'DATABASE',
   'nsfw': 'NSFW +18', 
   'ansfw': 'NSFW ANIME',
   'owner': 'OWNER', 
-  'advanced': 'AVANZADO',
+  'advanced': 'ADVANCE',
 }
 const defaultMenu = {
   before: `
-◈ ━━━━━ *DyLux  ┃ ᴮᴼᵀ* ━━━━━ ◈
+◈ ━━━━━ *INFO BOTZ* ━━━━━ ◈
+
+*TsukasaBotz-Md* ᴀᴅᴀʟᴀʜ ᴘʀᴏɢʀᴀᴍ ʙᴏᴛ ᴡʜᴀᴛꜱᴀᴘᴘ ʏᴀɴɢ ꜱɪᴀᴘ ᴍᴇᴍʙᴀɴᴛᴜ ᴀɴᴅᴀ ᴅᴀʟᴀᴍ ᴍᴇʟᴀᴋᴜᴋᴀɴ ʙᴇʀʙᴀɢᴀɪ ᴛɪɴᴅᴀᴋᴀɴ, ᴍᴇɴᴄᴀʀɪ ᴅᴀᴛᴀ ᴀᴛᴀᴜ ɪɴꜰᴏʀᴍᴀꜱɪ ᴍᴇʟᴀʟᴜɪ ᴡʜᴀᴛꜱᴀᴘᴘ.
  
-👋🏻 _Hola_ *%name*
-🧿 Nivel : *%level* 
-👥 Usuarios : %totalreg
-📈 Tiempo activo : %muptime
+👋🏻 _ʜᴀʟᴏ_ *%name*
+🧿 ʟᴇᴠᴇʟ : *%level* 
+👥 ᴛᴏᴛᴀʟ ᴜꜱᴇʀ : %totalreg
+📈 ᴜᴘᴛɪᴍᴇ : %muptime 
 ─────────────
-▢ Crea tu propio bot 
-• https://youtu.be/xFqjKN1Qt80
-▢ Descarga *FGWhatsApp*
-• https://fgmods.epizy.com
+ʜᴀʟᴏ *%name* ᴀᴅᴀ ʏᴀɴɢ ʙɪꜱᴀ ꜱᴀʏᴀ ʙᴀɴᴛᴜ?
+ᴋᴇᴛɪᴋ *.ᴏᴡɴᴇʀ* ᴜɴᴛᴜᴋ ᴍᴇɴʏᴇᴡᴀ ʙᴏᴛ ᴀᴛᴀᴜ ᴋᴇᴘᴇʀʟᴜᴀɴ ʟᴀɪɴɴʏᴀ, ᴛᴇʀɪᴍᴀ ᴋᴀꜱɪʜ
 ─────────────
 %readmore
-Ⓟ = Premium
-ⓓ = Diamantes
+Ⓛ = Limit
+Ⓟ = Premium 
 -----  -----  -----  -----  -----
-  ≡ *LISTA DE MENUS*
+  ≡ *DAFTAR MENU*
 `.trimStart(),
   header: '┌─⊷ *%category*',
-  body: '▢ %cmd %isdiamond %isPremium',
+  body: '▢ %cmd %islimit %isPremium',
   footer: '└───────────\n',
   after: `
 `,
@@ -55,7 +55,7 @@ const defaultMenu = {
 let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
   try {
     let _package = JSON.parse(await promises.readFile(join(__dirname, '../package.json')).catch(_ => ({}))) || {}
-    let { exp, diamond, level, role } = global.db.data.users[m.sender]
+    let { exp, limit, level, role } = global.db.data.users[m.sender]
     let { min, xp, max } = xpRange(level, global.multiplier)
     let name = await conn.getName(m.sender)
     let d = new Date(new Date + 3600000)
@@ -99,7 +99,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
         help: Array.isArray(plugin.tags) ? plugin.help : [plugin.help],
         tags: Array.isArray(plugin.tags) ? plugin.tags : [plugin.tags],
         prefix: 'customPrefix' in plugin,
-        diamond: plugin.diamond,
+        limit: plugin.limit,
         premium: plugin.premium,
         enabled: !plugin.disabled,
       }
@@ -121,7 +121,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
           ...help.filter(menu => menu.tags && menu.tags.includes(tag) && menu.help).map(menu => {
             return menu.help.map(help => {
               return body.replace(/%cmd/g, menu.prefix ? help : '%p' + help)
-                .replace(/%isdiamond/g, menu.diamond ? '(ⓓ)' : '')
+                .replace(/%islimit/g, menu.limit ? '(Ⓛ)' : '')
                 .replace(/%isPremium/g, menu.premium ? '(Ⓟ)' : '')
                 .trim()
             }).join('\n')
@@ -144,14 +144,27 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
       totalexp: exp,
       xp4levelup: max - exp,
       github: _package.homepage ? _package.homepage.url || _package.homepage : '[unknown github url]',
-      level, diamond, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
+      level, limit, name, weton, week, date, dateIslamic, time, totalreg, rtotalreg, role,
       readmore: readMore
     }
     text = text.replace(new RegExp(`%(${Object.keys(replace).sort((a, b) => b.length - a.length).join`|`})`, 'g'), (_, name) => '' + replace[name])
     
-    let pp = './src/fg_logo.jpg'
+    let pp = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://telegra.ph/file/a2ae6cbfa40f6eeea0cf1.jpg')
+let thumb = `https://api.lolhuman.xyz/api/welcomeimage?apikey=gunturganteng&img=${pp}&text=${name}`
+ 
+ conn.sendMessage(m.chat, {
+text: text,
+contextInfo: {
+externalAdReply: {
+title: "乂  T S U K A S A  B O T Z",
+body: "",
+thumbnailUrl: thumb,
+sourceUrl: "",
+mediaType: 1,
+renderLargerThumbnail: true
+}}}, { quoted: m})
      
-    conn.sendFile(m.chat, pp, 'menu.jpg', text.trim(), m, null, rpl)
+    /*conn.sendFile(m.chat, pp, 'menu.jpg', text.trim(), m, null, rpl)*/
     /*conn.sendButton(m.chat, text.trim(), '▢ DyLux  ┃ ᴮᴼᵀ\n▢ Sígueme en Instagram\nhttps://www.instagram.com/fg98_ff', pp, [
       ['ꨄ︎ Apoyar', `${_p}donate`],
       ['⏍ Info', `${_p}botinfo`],
@@ -161,7 +174,7 @@ let handler = async (m, { conn, usedPrefix: _p, __dirname }) => {
     m.react('📚') 
     
   } catch (e) {
-    conn.reply(m.chat, '❎ Lo sentimos, el menú tiene un error', m)
+    conn.reply(m.chat, 'Maaf, menu mengalami kesalahan', m)
     throw e
   }
 }

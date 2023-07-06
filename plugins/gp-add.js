@@ -8,6 +8,7 @@ import fetch from 'node-fetch'
  */
 const { getBinaryNodeChild, getBinaryNodeChildren } = (await import('@adiwajshing/baileys')).default
 let handler = async (m, { conn, text, participants }) => {
+	if (!text) throw 'Harap masukan nomor yang ingin ditambahkan dalam grup!')
     let _participants = participants.map(user => user.id)
     let users = (await Promise.all(
         text.split(',')
@@ -40,11 +41,11 @@ let handler = async (m, { conn, text, participants }) => {
         const content = getBinaryNodeChild(user, 'add_request')
         const invite_code = content.attrs.code
         const invite_code_exp = content.attrs.expiration
-        let teks = `✳️ Al usuario @${jid.split('@')[0]} solo lo pueden agregar sus contactos :'v `
+        let teks = `Pengguna @${jid.split('@')[0]} telah memprivate nomornya agar tidak bisa dimasukan ke grup!\n\n_Mengirim undangan permintaan bergabung..._`
         m.reply(teks, null, {
             mentions: conn.parseMention(teks)
         })
-        //await conn.sendGroupV4Invite(m.chat, jid, invite_code, invite_code_exp, await conn.getName(m.chat), 'Invitación para unirse a mi grupo de WhatsApp ', jpegThumbnail)
+        await conn.sendGroupV4Invite(m.chat, jid, invite_code, invite_code_exp, await conn.getName(m.chat), 'Invitation to join my WhatsApp group', jpegThumbnail)
     }
 }
 handler.help = ['add']

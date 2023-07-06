@@ -9,7 +9,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 	 let who
     if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
     else who = m.chat
-    if (!who) throw `✳️ Etiqueta o menciona a alguien\n\n📌 Ejemplo : ${usedPrefix + command} @tag` 
+    if (!who) throw `Silakan tag orangnya!\n\nContoh : ${usedPrefix + command} @tag` 
     
     let user = global.db.data.users[who]
     let name = conn.getName(who) 
@@ -20,7 +20,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     if (!rki.ok) throw await rki.text()
    let jkis = await rki.json()
    let { url } = jkis
-   let stiker = await sticker(null, url, `(${name2}) mató a`, `${name}`)
+   let stiker = await sticker(null, url, `(${name2}) membunuh`, `${name}`)
    conn.sendFile(m.chat, stiker, null, { asSticker: true }, m)
    m.react('🗡️') 
    
@@ -28,8 +28,8 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 handler.help = ['kill @tag']
 handler.tags = ['rnime']
-handler.command = /^(kill|matar)$/i
-handler.diamond = true
+handler.command = /^(kill|bunuh)$/i
+handler.limit = true
 handler.group = true
 
 export default handler

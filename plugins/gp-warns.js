@@ -1,14 +1,14 @@
 
 let handler = async (m, { conn, args, groupMetadata}) => {
        let who = m.quoted ? m.quoted.sender : m.mentionedJid && m.mentionedJid[0] ? m.mentionedJid[0] : m.fromMe ? conn.user.jid : m.sender
-       if (!(who in global.db.data.users)) throw `✳️ El usuario no se encuentra en mi base de datos`
+       if (!(who in global.db.data.users)) throw `Pengguna tidak terdaftar didalam database!`
        let warn = global.db.data.users[who].warn
        let name = conn.getName(who)
       m.reply(`
- *ADVERTENCIAS*
+ *WARN*
 
-▢ *Nombre :* ${name} 
-▢ *Warns :* ${warn}`)
+▢ *Nama :* ${name} 
+▢ *Warn saat ini :* ${warn}`)
 }
 
 handler.help = ['warns']

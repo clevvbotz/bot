@@ -7,11 +7,11 @@ const da = [
   'https://tinyurl.com/gdd006'
 ];
 let handler = async (m, { conn }) => {
-  conn.sendFile(m.chat, pickRandom(da), 'dado.webp', '', m)
+  conn.sendFile(m.chat, pickRandom(da), 'dadu.webp', '', m)
 }
-handler.help = ['dado']
+handler.help = ['dadu']
 handler.tags = ['game']
-handler.command = ['dado', 'dados'] 
+handler.command = ['dadu'] 
 
 export default handler
 

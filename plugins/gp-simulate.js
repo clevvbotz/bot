@@ -2,16 +2,16 @@
 let handler = async (m, { conn, usedPrefix, command, args: [event], text }) => {
 
   let chat = global.db.data.chats[m.chat]
-  if (!chat.welcome) throw `✳️ Para usar este comando debe actvar las Bienvenidas con *${usedPrefix}on* welcome`
+  if (!chat.welcome) throw `Untuk menggunakan perintah ini, kamu harus mengaktifkan Welcome dengan *${usedPrefix}on* welcome`
   let te = `
-  ┌─⊷ *EVENTOS*
+  ┌─⊷ *SETING*
   ▢ welcome
   ▢ bye
   ▢ promote
   ▢ demote
   └───────────
   
-  📌 Ejemplo :
+  📌 Contoh :
   
   *${usedPrefix + command}* welcome @user`
 
@@ -21,28 +21,24 @@ let mentions = text.replace(event, '').trimStart()
 let who = mentions ? conn.parseMention(mentions) : []
 let part = who.length ? who : [m.sender]
 let act = false
-m.reply(`✅ Simulando ${event}...`)
+m.reply(`Simulasi ${event}...`)
 switch (event.toLowerCase()) {
         case 'add':
-        case 'bienvenida':
         case 'invite':
         case 'welcome':
            act = 'add'
          break 
         case 'bye':
-        case 'despedida':
         case 'leave':
         case 'remove':
          act = 'remove'
         break
 
         case 'promote':
-        case 'promover':
           act = 'promote'
         break
 
         case 'demote':
-        case 'degradar':
          act = 'demote'
         break
 
@@ -58,7 +54,7 @@ action: act
 }
 handler.help = ['simulate <event> @user']
 handler.tags = ['group']
-handler.command = ['simular', 'simulate'] 
+handler.command = ['simulasi', 'simulate'] 
 handler.admin = true
 handler.group = true
 

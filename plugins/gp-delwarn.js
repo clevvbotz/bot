@@ -3,18 +3,18 @@ let handler = async (m, { conn, args, groupMetadata}) => {
         let who
         if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
         else who = m.chat
-        if (!who) throw `✳️ Etiqueta o menciona a alguien`
-        if (!(who in global.db.data.users)) throw `✳️ El usuario no se encuentra en mi base de datos`
+        if (!who) throw `Harap tag pengguna yang ingin diberi warn!`
+        if (!(who in global.db.data.users)) throw `Pengguna tidak terdaftar didalam database!`
        let warn = global.db.data.users[who].warn
        if (warn > 0) {
          global.db.data.users[who].warn -= 1
-         m.reply(`⚠️ *DELWARN*
+         m.reply(`⚠️ *WARN* ⚠️
          
-▢ Warns: *-1*
-▢ Warns total: *${warn - 1}*`)
-         m.reply(`✳️ Un admin redujo su advertencia, ahora tienes *${warn - 1}*`, who)
+▢ Warn saat ini: *-1*
+▢ Total Warn: *${warn - 1}*`)
+         m.reply(`Admin telah mengurangi warn kamu. Sekarang kamu memiliki *${warn - 1}* warn`, who)
          } else if (warn == 0) {
-            m.reply('✳️ El usuario no tiene ninguna advertencia')
+            m.reply('Kamu tidak memiliki warn!')
         }
 
 }

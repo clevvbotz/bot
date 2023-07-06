@@ -2,19 +2,19 @@
 let reg = 40
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     let fa = `
-Cuanto quieres apostar? 
+Berapa banyak yang ingin kamu pertaruhkan? 
 
-📌 Ejemplo :
+Contoh :
 *${usedPrefix + command}* 100`.trim()
     if (!args[0]) throw fa
     if (isNaN(args[0])) throw fa
-    let apuesta = parseInt(args[0])
+    let bertaruh = parseInt(args[0])
     let users = global.db.data.users[m.sender]
     let time = users.lastslot + 10000
-    if (new Date - users.lastslot < 10000) throw `⏳ Espere *${msToTime(time - new Date())}* para usar de nuevo`
-    if (apuesta < 100) throw '✳️ Mínimo de la apuesta es *100 XP*'
-    if (users.exp < apuesta) {
-        throw `✳️ No tienes suficiente *XP*`
+    if (new Date - users.lastslot < 10000) throw `⏳ Tunggu *${msToTime(time - new Date())}* untuk menggunakannya lagi`
+    if (bertaruh < 100) throw 'Taruhan tidak boleh kurang dari 100!'
+    if (users.exp < bertaruh) {
+        throw `Kamu tidak memiliki cukup *XP*`
     }
 
     let emojis = ["🕊️", "🦀", "🦎"];
@@ -41,14 +41,14 @@ Cuanto quieres apostar?
     }
     let end;
     if (a == b && b == c) {
-        end = `🎁 GANASTE\n *+${apuesta + apuesta} XP*`
-        users.exp += apuesta + apuesta
+        end = `🎁 Kamu menang!\n *+${bertaruh + bertaruh} XP*`
+        users.exp += bertaruh + bertaruh
     } else if (a == b || a == c || b == c) {
-        end = `🔮 Casi lo logras sigue intentando :) \nTen *+${reg} XP*`
+        end = `🔮 Kamu hampir terus mencoba :)\nBonus: *+${reg} XP*`
         users.exp += reg
     } else {
-        end = `😔 Perdiste  *-${apuesta} XP*`
-        users.exp -= apuesta
+        end = `😔 Kamu kehilangan *-${bertaruh} XP*`
+        users.exp -= bertaruh
     }
     users.lastslot = new Date * 1
     return await m.reply(
@@ -63,7 +63,7 @@ Cuanto quieres apostar?
         
 ${end}`) 
 }
-handler.help = ['slot <apuesta>']
+handler.help = ['slot <taruhan>']
 handler.tags = ['game']
 handler.command = ['slot']
 
@@ -79,5 +79,5 @@ function msToTime(duration) {
     minutes = (minutes < 10) ? "0" + minutes : minutes
     seconds = (seconds < 10) ? "0" + seconds : seconds
 
-    return seconds + " Segundo(s)"
+    return seconds + " Detik(s)"
 }

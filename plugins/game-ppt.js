@@ -2,53 +2,53 @@
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     let poin = 300
-    let reseqv = `✳️ Seleccione piedra/papel/tijera\n\nEjemplo : *${usedPrefix + command}* papel\n`
+    let reseqv = `Contoh : *${usedPrefix + command}* kertas\n\n*Pilihan yang tersedia:*\n• Batu\n• Gunting\n• Kertas`
     if (!text) throw reseqv
     var astro = Math.random()
 
     if (astro < 0.34) {
-        astro = 'piedra'
+        astro = 'batu'
     } else if (astro > 0.34 && astro < 0.67) {
-        astro = 'tijera'
+        astro = 'gunting'
     } else {
-        astro = 'papel'
+        astro = 'kertas'
     }
 
 
     if (text == astro) {
       global.db.data.users[m.sender].exp += 100
-        m.reply(`▢ *Empate*\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\n🎁 Puntos (±)100 XP`)
-    } else if (text == 'piedra') {
-        if (astro == 'tijera') {
+        m.reply(`▢ *Seri*\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\n🎁 Hadiah (±)100 XP`)
+    } else if (text == 'batu') {
+        if (astro == 'gunting') {
             global.db.data.users[m.sender].exp += 300
-            m.reply(`▢ *Ganaste* 🎊\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\n🎁 Puntos *+${poin} XP*`)
+            m.reply(`▢ *Kamu menang!* 🎊\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\n🎁 Hadiah *${poin} XP*`)
         } else {
           global.db.data.users[m.sender].exp -= 300
-            m.reply(`▢ *Perdiste*\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\n Puntos *-${poin} XP*`)
+            m.reply(`▢ *Kamu kalah!*\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\n Poin kamu berkurang *${poin} XP*`)
         }
-    } else if (text == 'tijera') {
-        if (astro == 'papel') {
+    } else if (text == 'gunting') {
+        if (astro == 'kertas') {
             global.db.data.users[m.sender].exp += 300
-            m.reply(`▢ *Ganaste* 🎊\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\n🎁 Puntos *+${poin} XP*`)
+            m.reply(`▢ *Kamu menang!* 🎊\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\n🎁 Hadiah *${poin} XP*`)
         } else {
           global.db.data.users[m.sender].exp -= 300
-            m.reply(`▢ *Perdiste*\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\nPuntos *-${poin} XP*`)
+            m.reply(`▢ *Kamu kalah!*\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\nPoin kamu berkurang *${poin} XP*`)
         }
-    } else if (text == 'papel') {
-        if (astro == 'piedra') {
+    } else if (text == 'kertas') {
+        if (astro == 'batu') {
             global.db.data.users[m.sender].exp += 300
-            m.reply(`▢ *Ganaste* 🎊\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\n🎁 Puntos *+${poin} XP*`)
+            m.reply(`▢ *Kamu menang!* 🎊\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\n🎁 Hadiah *${poin} XP*`)
         } else {
           global.db.data.users[m.sender].exp -= 300
-            m.reply(`▢ *Perdiste*\n\n‣ Tú : ${text}\n‣ DyLux : ${astro}\n\nPuntos *-${poin} XP*`)
+            m.reply(`▢ *Kamu kalah!*\n\n‣ Kamu : ${text}\n‣ Bot : ${astro}\n\nPoin kamu berkurang *${poin} XP*`)
         }
     } else {
         throw reseqv
     }
 }
-handler.help = ['ppt <piedra/papel/tijera>']
+handler.help = ['suit <batu/gunting/kertas>']
 handler.tags = ['game']
-handler.command = ['ppt'] 
+handler.command = ['suit'] 
 handler.register = false
 
 export default handler

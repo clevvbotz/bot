@@ -2,12 +2,12 @@
 import fetch from 'node-fetch'
 import { mediafiredl } from '@bochilteam/scraper'
 import fg from 'api-dylux'
-let free = 150 // limite de descarga
-let prem = 300 //si su servidor tienes menos de 2GB baja el límite
+let free = 150 // batas debit
+let prem = 300 //jika server Anda memiliki kurang dari 2GB turunkan batasnya
 let handler = async (m, { conn, args, text, usedPrefix, command, isOwner, isPrems }) => {
 	
-   if (!args[0]) throw `✳️ Ingrese el link de mediafire junto al comando`
-    if (!args[0].match(/mediafire/gi)) throw `❎ Link incorrecto`
+   if (!args[0]) throw `Harap masukkan tautan mediafire!`
+    if (!args[0].match(/mediafire/gi)) throw `Tautan yang dimasukkan salah'
     m.react(rwait)
     
     let limit = isPrems || isOwner ? prem : free
@@ -19,11 +19,11 @@ let handler = async (m, { conn, args, text, usedPrefix, command, isOwner, isPrem
     let isLimit = limit * 1024 < filesize
     let caption = `
    ≡ *MEDIAFIRE*
-▢ *Nombre:* ${filename}
-▢ *Tamaño:* ${filesizeH}
+▢ *Nama:* ${filename}
+▢ *Size:* ${filesizeH}
 ▢ *Extension:* ${ext}
-▢ *Subido:* ${aploud}
-${isLimit ? `\n▢ El archivo supera el límite de descarga *+${free} MB*\nPásate a premium para poder descargar archivos más de *${prem} MB*` : ''} 
+▢ *Upload:* ${aploud}
+${isLimit ? `\n▢ File melebihi batas unduhan *+${free} MB*\nTingkatkan ke premium untuk mengunduh file lebih dari *${prem} MB*` : ''} 
 `.trim()
     await conn.sendFile(m.chat, ss, 'ssweb.png', caption, m)  
     if(!isLimit) await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
@@ -33,22 +33,22 @@ ${isLimit ? `\n▢ El archivo supera el límite de descarga *+${free} MB*\nPása
 
         try {
 	let res = await fg.mediafireDl(args[0])
-     let { url, url2, filename, ext, upload_date, filesize, filesizeB } = res
-    let isLimit = limit * 1024 < filesizeB
-    let caption = `
-   ≡ *MEDIAFIRE*
-▢ *Nombre:* ${filename}
-▢ *Tamaño:* ${filesize}
-▢ *Extension:* ${ext}
-▢ *Subido:* ${upload_date}
-${isLimit ? `\n▢ El archivo supera el límite de descarga *+${free} MB*\nPásate a premium para poder descargar archivos más de *${prem} MB*` : ''} 
-`.trim()
+    let { link, name, ext, size, sizeN } = res
+   
+	let caption = `
+   ≡ *MEDIAFIRE DL 2*
 
+▢ *Nama:* ${name}
+▢ *Size:* ${size}
+▢ *Extension:* ${ext}
+`
+if (size.split('MB')[0] >= limit) return m.reply(`▢ File melebihi batas unduhan *+${free} MB*\nTingkatkan ke premium untuk mengunduh file lebih dari *${prem} MB*`)
+if (size.includes('GB')) return m.reply(`▢ File melebihi batas unduhan *+${free} MB*\nTingkatkan ke premium untuk mengunduh file lebih dari *${prem} MB*`)
 await conn.sendFile(m.chat, ss, 'ssweb.png', caption, m)
-if(!isLimit) await conn.sendFile(m.chat, url, filename, '', m, null, { mimetype: ext, asDocument: true })
+await conn.sendFile(m.chat, link, name, '', m, null, { mimetype: ext, asDocument: true })
     m.react(done)
 } catch {
-    m.reply(`Error: intenta con otro link`)
+    m.reply(`Kesalahan: Coba tautan lain`)
 }
 
   }

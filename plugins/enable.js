@@ -4,7 +4,7 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin, isR
 	
 const sections = [
    {
-	title: `≡ Lista de Opciones`,
+	title: `≡ Daftar Opsi`,
 	rows: [
 	{title: "🔮 | Welcome", rowId: `${usedPrefix + command} welcome`},
 	{title: "🌎 | Public", rowId: `${usedPrefix + command} public`},
@@ -24,10 +24,10 @@ const sections = [
 ]
 
 const listMessage = {
-  text: '\nAquí tiene una lista de lo que puede activar y desactivar',
+  text: '\nBerikut daftar hal-hal yang dapat Anda aktifkan dan nonaktifkan',
   footer: fgig,
-  title: `≡ Lista de Opciones`,
-  buttonText: "Click Aquí",
+  title: `≡ Daftar Opsi`,
+  buttonText: "Klik Disini",
   sections
 }
 
@@ -39,8 +39,6 @@ const listMessage = {
   let isAll = false, isUser = false
   switch (type) {
     case 'welcome':
-    case 'bv':
-    case 'bienvenida':
       if (!m.isGroup) {
         if (!isOwner) {
           global.dfail('group', m, conn)
@@ -86,7 +84,6 @@ const listMessage = {
     chat.useDocument = isEnable
     break
     case 'public':
-    case 'publico':
       isAll = true
       if (!isROwner) {
         global.dfail('rowner', m, conn)
@@ -96,7 +93,6 @@ const listMessage = {
       break
     case 'antilink':
     case 'antilinkwa':
-    case 'antilinkwha':
       if (m.isGroup) {
         if (!(isAdmin || isOwner)) {
           global.dfail('admin', m, conn)
@@ -104,21 +100,6 @@ const listMessage = {
         }
       }
       chat.antiLink = isEnable
-      break
-      
-      case 'sololatinos':
-      case 'sololatino':
-      case 'onlylatinos':
-      case 'onlylat':
-      case 'onlylatan':
-      case 'sololatan':
-      if (m.isGroup) {
-        if (!(isAdmin || isOwner)) {
-          global.dfail('admin', m, conn)
-          throw false
-        }
-      }
-      chat.onlyLatinos = isEnable
       break
       
       case 'nsfw':
@@ -153,10 +134,8 @@ const listMessage = {
       bot.restrict = isEnable
       break
     
-    case 'onlypv':
-    case 'onlydm':
-    case 'onlymd':
-    case 'solopv':
+    case 'privateonly':
+    case 'pconly':
       isAll = true
       if (!isROwner) {
         global.dfail('rowner', m, conn)
@@ -165,11 +144,9 @@ const listMessage = {
       global.opts['pconly'] = isEnable
       break
       
-    case 'gponly':
-    case 'onlygp':
+    case 'gconly':
+    case 'onlygc':
     case 'grouponly':
-    case 'sologp':
-    case 'sologrupo':
       isAll = true
       if (!isROwner) {
         global.dfail('rowner', m, conn)
@@ -180,7 +157,7 @@ const listMessage = {
       
     default:
       if (!/[01]/.test(command)) return m.reply(`
-≡ Lista de Opciones
+≡ Daftar Opsi
 
 ┌─⊷ *ADMIN*
 ▢ welcome
@@ -188,7 +165,6 @@ const listMessage = {
 ▢ detect 
 ▢ document
 ▢ nsfw
-▢ onlylatinos
 └───────────── 
 ┌─⊷ *USERS*
 ▢ autolevelup
@@ -196,10 +172,10 @@ const listMessage = {
 └─────────────
 ┌─⊷ *OWNER*
 ▢ public
-▢ solopv
-▢ sologp
+▢ gconly
+▢ pconly
 └─────────────
-*📌 Ejemplo :*
+*📌 Contoh :*
 *${usedPrefix}on* welcome
 *${usedPrefix}off* welcome
 `)
@@ -207,7 +183,7 @@ const listMessage = {
 }
 
 m.reply(`
-✅ *${type}* Se *${isEnable ? 'Activó' : 'Desactivó'}* ${isAll ? 'para este bot' : isUser ? '' : 'para este chat'}
+✅ *${type}* Telah berhasil *${isEnable ? 'Diaktifkan' : 'Dinonaktifkan'}* ${isAll ? 'untuk bot ini!' : isUser ? '' : 'untuk chat ini!'}
 `.trim()) 
 
 }

@@ -4,31 +4,31 @@ let handler = async (m, { conn, text, args, groupMetadata, usedPrefix, command }
         let who
         if (m.isGroup) who = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : false
         else who = m.chat
-        if (!who) throw `✳️ Etiqueta o menciona a alguien\n\n📌 Ejemplo : ${usedPrefix + command} @user`
-        if (!(who in global.db.data.users)) throw `✳️ El usuario no se encuentra en mi base de datos`
+        if (!who) throw `Harap tag pengguna!\n\nContoh : ${usedPrefix + command} @user`
+        if (!(who in global.db.data.users)) throw `Pengguna tidak terdaftar didalam database!`
         let name = conn.getName(m.sender)
         let warn = global.db.data.users[who].warn
         if (warn < war) {
             global.db.data.users[who].warn += 1
             m.reply(`
-⚠️ *Usuario Advertido* ⚠️
+⚠️ *Pengguna yang diberi WARN* ⚠️
 
 ▢ *Admin:* ${name}
-▢ *Usuario:* @${who.split`@`[0]}
-▢ *Warns:* ${warn + 1}/${war}
-▢ *Razon:* ${text}`, null, { mentions: [who] }) 
+▢ *Pengguna:* @${who.split`@`[0]}
+▢ *Warn:* ${warn + 1}/${war}
+▢ *Alasan:* ${text}`, null, { mentions: [who] }) 
             m.reply(`
-⚠️ *ADVERTENCIA* ⚠️
-Recibiste una advertencia de un admin
+⚠️ *WARN* ⚠️
+Anda menerima warn dari admin
 
-▢ *Warns:* ${warn + 1}/${war} 
-Si recibes *${war}* advertencias serás eliminado automáticamente del grupo`, who)
+▢ *Warn:* ${warn + 1}/${war} 
+Jika kamu menerima *${war}* warn\nKamu akan dikeluarkan otomatis dari grup ini!`, who)
         } else if (warn == war) {
             global.db.data.users[who].warn = 0
-            m.reply(`⛔ El usuario superó las *${war}* advertencias por lo tanto será eliminado`)
+            m.reply(`Kamu melebihi *${war}* warn\n\n*Maaf kamu akan dikeluarkan dari grup ini!*`)
             await time(3000)
             await conn.groupParticipantsUpdate(m.chat, [who], 'remove')
-            m.reply(`♻️ Fuiste eliminado del grupo *${groupMetadata.subject}* porque ha sido advertido *${war}* veces`, who)
+            m.reply(`Kamu telah dikeluarkan dari grup *${groupMetadata.subject}* karena kamu sudah menerima warn sebanyak *${war}* kali`, who)
         }
 }
 handler.help = ['warn @user']

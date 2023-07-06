@@ -2,12 +2,12 @@
 
 let handler = async (m, { text, usedPrefix, command }) => {
     global.db.data.sticker = global.db.data.sticker || {}
-    if (!m.quoted) throw `✳️Responde a un mensaje con *${usedPrefix + command}*`
-    if (!m.quoted.fileSha256) throw '⚠️ Menciona al mensaje'
-    if (!text) throw `✳️ Falta el comando`
+    if (!m.quoted) throw ` Balas stiker menggunakan perintah *${usedPrefix + command}*`
+    if (!m.quoted.fileSha256) throw 'Apa nama perintahnya?'
+    if (!text) throw `Harap balas stiker menggunakan perintah *${usedPrefix + command}*`
     let sticker = global.db.data.sticker
     let hash = m.quoted.fileSha256.toString('base64')
-    if (sticker[hash] && sticker[hash].locked) throw '⚠️ No tienes permiso para cambiar este comando de Sticker'
+    if (sticker[hash] && sticker[hash].locked) throw 'Kamu tidak bisa mengubah perintah stiker ini'
     sticker[hash] = {
         text,
         mentionedJid: m.mentionedJid,
@@ -15,7 +15,7 @@ let handler = async (m, { text, usedPrefix, command }) => {
         at: + new Date,
         locked: false,
     }
-    m.reply(`✅ Comando guardado`)
+    m.reply(`✅ Perintah berhasil disimpan`)
 }
 
 

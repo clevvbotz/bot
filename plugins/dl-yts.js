@@ -1,8 +1,7 @@
-
 import yts from 'yt-search'
 
 let handler = async (m, {conn, text }) => {
-  if (!text) throw '✳️ Que quieres que busque en YouTube?'
+  if (!text) throw 'Mau nyari apa di youtube?'
   let results = await yts(text)
   let tes = results.all
   let teks = results.all.map(v => {
@@ -10,15 +9,15 @@ let handler = async (m, {conn, text }) => {
       case 'video': return `
 ▢ ${v.title}
 ▢ *Link* : ${v.url}
-▢ *Duración* : ${v.timestamp}
-▢ *Subido :* ${v.ago}
-▢ *Vistas:* ${v.views}
+▢ *Durasi* : ${v.timestamp}
+▢ *Upload :* ${v.ago}
+▢ *Views:* ${v.views}
 
    `.trim()
-      case 'canal': return `
+      case 'channel': return `
 ▢ *${v.name}* (${v.url})
-▢${v.subCountLabel} (${v.subCount}) Suscribirse
-▢ ${v.videoCount} videos
+▢${v.subCountLabel} (${v.subCount}) Subscribe
+▢ ${v.videoCount} video
 `.trim()
     }
   }).filter(v => v).join('\n\n________________________\n\n')

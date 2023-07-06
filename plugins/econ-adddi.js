@@ -4,27 +4,27 @@ let handler = async (m, { conn, text }) => {
     let who
     if (m.isGroup) who = m.mentionedJid[0]
     else who = m.chat
-    if (!who) throw '✳️ Taguea al usuario'
+    if (!who) throw 'Harap tag pengguna!'
     let txt = text.replace('@' + who.split`@`[0], '').trim()
-    if (!txt) throw '✳️ Ingrese la cantidad de *Diamantes* que quiere añadir'
-    if (isNaN(txt)) throw '🔢 sólo números'
+    if (!txt) throw 'Masukkan jumlah *Limit* yang ingin kamu tambahkan'
+    if (isNaN(txt)) throw 'Teks harus berupa angka!'
     let dmt = parseInt(txt)
-    let diamond = dmt
+    let limit = dmt
     
-    if (diamond < 1) throw '✳️ Mínimo es  *1*'
+    if (limit < 1) throw 'Pemberian limit minimum *1*'
     let users = global.db.data.users
-   users[who].diamond += dmt
+   users[who].limit += dmt
 
-    await m.reply(`≡ *💎 AÑADIDO*
+    await m.reply(`≡ *BERHASIL MENAMBAHKAN LIMIT*
 ┌──────────────
 ▢ *Total:* ${dmt}
 └──────────────`)
-   conn.fakeReply(m.chat, `▢ Recibiste \n\n *+${dmt}* Diamantes`, who, m.text)
+   conn.fakeReply(m.chat, `▢ Mendapat \n\n *+${dmt}* Limit`, who, m.text)
 }
 
-handler.help = ['adddi <@user>']
+handler.help = ['addlimit <@user>']
 handler.tags = ['econ']
-handler.command = ['adddi'] 
+handler.command = ['addlimit'] 
 handler.rowner = true
 
 export default handler

@@ -6,8 +6,8 @@ var number = text.split`@`[1]
 }else if(!isNaN(text)) {
 var number = text
 }
-if(!text && !m.quoted) return conn.reply(m.chat, `✳️ Uso del comamdo \n *${usedPrefix + command}* @tag  (o responda un mensaje)`, m)
-if(number.length > 13 || (number.length < 11 && number.length > 0)) return conn.reply(m.chat, `✳️ Numero incorrecto`, m)
+if(!text && !m.quoted) return conn.reply(m.chat, `Penggunaan perintah yang benar:\n*${usedPrefix + command}* @tag (bisa juga dengan membalas pesan)`, m)
+if(number.length > 13 || (number.length < 11 && number.length > 0)) return conn.reply(m.chat, `✳️ Nomor salah`, m)
   
 try {
 if(text) {
@@ -20,7 +20,7 @@ var user = number + '@s.whatsapp.net'
 } catch (e) {
 } finally {
 conn.groupParticipantsUpdate(m.chat, [user], 'demote')
-m.reply(`✅ Usuario degradado`)
+m.reply(`Berhasil mengeluarkan peserta!`)
 }
 
 }

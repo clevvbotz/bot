@@ -2,22 +2,18 @@
 let handler = async(m, { conn, usedPrefix, command }) => {
 
     let don = `
-≡ *DONACION*
-puedes donar si quieres ayudar a mantener el bot activo
+≡ *Donasi*
+Kamu dapat berdonasi jika ingin membantu agar bot tetap aktif
 
-▢ *PayPal*
-• *Link :* https://paypal.me/fg98f
-
-▢ *Mercado Pago Arg*
-• *Alias :* fg98ff
-• *N° :* 1168352204
+▢ *DANA*
+• *Nomor :* 089524664142 
 `
-let img = 'https://i.ibb.co/37FP2bk/donate.jpg'
+let img = 'https://telegra.ph/file/23725c41336747ace1ae9.jpg'
 conn.sendFile(m.chat, img, 'img.jpg', don, m)
 
 }
 handler.help = ['donate']
 handler.tags = ['main']
-handler.command = ['apoyar', 'donate', 'donar'] 
+handler.command = ['donate', 'donasi'] 
 
 export default handler
