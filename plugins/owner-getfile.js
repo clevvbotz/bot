@@ -10,19 +10,19 @@ let handler = async (m, { conn, isROwner, usedPrefix, command, text }) => {
   
   if (!text) {
     throw `
-✳️ Uso del comando : ${usedPrefix + command} <name file>
+Penggunaan perintah : ${usedPrefix + command} <name file>
       
-📌 Ejemplo:
+📌 Contoh:
 ${usedPrefix + command} main-menu
 `.trim();
   }
 
   if (!pluginNames.includes(text)) {
     return m.reply(`
-📌 *Ejemplo:* 
- ${usedPrefix + command} main-menu 
+📌 *Contoh:* 
+ ${usedPrefix + command} main-menu
       
-      ≡ *Lista de Plugins*
+      ≡ *List Plugin*
 ┌─⊷
  ${pluginNames.map(name => `▢ ${name}`).join('\n')}
 └───────────
@@ -48,7 +48,7 @@ ${usedPrefix + command} main-menu
 };
 handler.help = ['getplugin']
 handler.tags = ['owner']
-handler.command = ['getplugin']
+handler.command = ['getplugin','gp']
 handler.rowner = true
 
 export default handler

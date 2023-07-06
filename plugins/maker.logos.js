@@ -1,8 +1,8 @@
 
 let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 	
-    let tee = `✳️ Ingrese un texto corto\n\n📌 Ejemplo  : *${usedPrefix + command}* FG98`
-    let too = `✳️ Separe EL texto con un *+* \n\n📌 Ejemplo : \n*${usedPrefix + command}* fgmods *+* DyLux`
+    let tee = `Harap masukkan teks pendek\n\nContoh  : *${usedPrefix + command}* NANZ`
+    let too = `Harap pisahkan teks dengan *+* \n\nContoh : \n*${usedPrefix + command}* fgmods *+* NANZ`
      m.react(rwait)
  let type = (command).toLowerCase()
  switch (type) {
@@ -10,25 +10,25 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
      case 'logololi':
      if (!text) throw tee 
      let img = global.API('fgmods', '/api/maker/loli', { text }, 'apikey')
-     conn.sendFile(m.chat, img, 'logo.png', `✅ Resultado`, m)
+     conn.sendFile(m.chat, img, 'logo.png', `✅ Done`, m)
      m.react(done)
      break 
      case 'neon': 
      if (!text) throw tee
      let ne = global.API('fgmods', '/api/textpro/neon', { text }, 'apikey')
-     conn.sendFile(m.chat, ne, 'logo.png', `✅ Resultado`, m)
+     conn.sendFile(m.chat, ne, 'logo.png', `✅ Done`, m)
      m.react(done)
      break 
      case 'devil': 
      if (!text) throw tee
      let de = global.API('fgmods', '/api/textpro/devil', { text }, 'apikey')
-     conn.sendFile(m.chat, de, 'logo.png', `✅ Resultado`, m)
+     conn.sendFile(m.chat, de, 'logo.png', `✅ Done`, m)
      m.react(done)
      break 
      case 'wolf': 
     if (!text) throw tee
     let wo = global.API('fgmods', '/api/textpro/logowolf', { text: 'FG98', text2: text}, 'apikey')
-     conn.sendFile(m.chat, wo, 'logo.png', `✅ Resultado`, m)
+     conn.sendFile(m.chat, wo, 'logo.png', `✅ Done`, m)
      m.react(done)
      break 
      case 'phlogo': 
@@ -36,7 +36,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
      if (!text.includes('+')) throw too  
      let [a, b] = text.split`+`   
      let ph = global.API('fgmods', '/api/textpro/pornhub', { text: a, text2: b}, 'apikey')
-     conn.sendFile(m.chat, ph, 'logo.png', `✅ Resultado`, m)
+     conn.sendFile(m.chat, ph, 'logo.png', `✅ Done`, m)
      m.react(done)
      break 
      default:
@@ -45,7 +45,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
  handler.help = ['logololi', 'neon', 'devil', 'wolf', 'phlogo']
  handler.tags = ['maker']
  handler.command = /^(logololi|neon|devil|wolf|phlogo)$/i
- handler.diamond = true
+ handler.limit = true
  
  export default handler
  

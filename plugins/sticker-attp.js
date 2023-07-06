@@ -1,7 +1,7 @@
 
 import { sticker } from '../lib/sticker.js'
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-     if (!text) throw `✳️ _Envie el texto_\n\n📌Ejemplo *${usedPrefix + command}* dylux-fg`
+     if (!text) throw `_Harap kirim teks_\n\nContoh *${usedPrefix + command}* nanzone`
     //let stiker = await sticker(null, global.API('xteam', '/attp', { file: '', text }), global.packname, global.author)
      let stiker = await sticker(null, global.API('fgmods', '/api/maker/attp', { text }, 'apikey'), global.packname, global.author)
     if (stiker) return conn.sendFile(m.chat, stiker, 'sticker.webp', '', m )

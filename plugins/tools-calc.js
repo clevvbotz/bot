@@ -26,13 +26,13 @@ let handler = async (m, { conn, text }) => {
     if (!result) throw result
     m.reply(`*${format}* = _${result}_`)
   } catch (e) {
-    if (e == undefined) throw '✳️ Ingrese la ecuación\n\nsímbolos compatibles -, +, *, /, ×, ÷, π, e, (, )'
-    throw 'Formato incorrecto, solo 0-9 y símbolo -, +, *, /, ×, ÷, π, e, (, ) que puedes usar'
+    if (e == undefined) throw 'Harap masukkan simbol persamaan\n\ndidukung -, +, *, /, ×, ÷, π, e, (, )'
+    throw 'Format salah, hanya 0-9 dan simbol -, +, *, /, ×, ÷, π, e, (, )'
   }
 }
-handler.help = ['cal <ecuacion>']
+handler.help = ['cal <teks>']
 handler.tags = ['tools']
-handler.command = ['cal', 'calc', 'calcular', 'calculadora'] 
+handler.command = ['cal', 'calc', 'kalkulator', 'calculator'] 
 handler.exp = 5
 
 export default handler

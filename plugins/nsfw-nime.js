@@ -3,9 +3,9 @@ import fetch from 'node-fetch'
 import axios from 'axios'
 let handler = async (m, { conn, usedPrefix, command }) => {
 	
-	if (!global.db.data.chats[m.chat].nsfw) throw `🚫 El grupo no admite contenido nsfw \n\n Para habilitar escriba \n*${usedPrefix}enable* nsfw`
+	if (!global.db.data.chats[m.chat].nsfw) throw `Grup ini tidak mendukung konten nsfw!\n\nUntuk mengaktifkan silakan ketik:\n*${usedPrefix}enable* nsfw`
     let user = global.db.data.users[m.sender].age
-    if (user < 17) throw m.reply(`❎ Eres menor de edad! vuelve cuando tengas más de 18 años`)
+    if (user < 17) throw m.reply(`Kamu masih di bawah umur! Kembalilah saat kamu berusia di atas 18 tahun`)
    
    m.react(rwait)
 let type = (command).toLowerCase()
@@ -53,7 +53,7 @@ default:
 handler.help = ['xwaifu', 'xneko', 'blowjob', 'trap', 'yuri', 'cum', 'hentai']
 handler.tags = ['ansfw']
 handler.command = /^(xwaifu|xneko|blowjob|trap|yuri|cum|hentai)$/i
-handler.diamond = true
+handler.limit = true
 handler.register = true
 handler.group = true
 

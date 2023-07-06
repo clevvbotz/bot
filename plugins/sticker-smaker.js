@@ -7,17 +7,17 @@ let handler = async (m, { conn, usedPrefix, text, command }) => {
 let effect = text.trim().toLowerCase()
 if (!effects.includes(effect)) throw `
 
-┌─⊷ *EFECTOS*
+┌─⊷ *LIST EFEK*
 ${effects.map(effect => `▢ ${effect}`).join('\n')}
 └───────────
 
-📌 *Ejemplo:* 
+*Contoh:* 
 ${usedPrefix + command} wasted 
 `.trim()
 let q = m.quoted ? m.quoted : m
 let mime = (q.msg || q).mimetype || ''
-if (!mime) throw '✳️ Responde a una imagen'
-if (!/image\/(jpe?g|png)/.test(mime)) throw `✳️ Formato no soportado`
+if (!mime) throw 'Harap balas gambar dengan perintah ini!'
+if (!/image\/(jpe?g|png)/.test(mime)) throw `Format tidak didukung`
 let img = await q.download()
 let url = await uploadImage(img)
 let apiUrl = global.API('https://some-random-api.ml/canvas/', encodeURIComponent(effect), {
@@ -27,12 +27,12 @@ try {
 let stiker = await sticker(null, apiUrl, global.packname, global.author)
 conn.sendFile(m.chat, stiker, null, { asSticker: true }, m)
 } catch (e) {
-m.reply('Error de conversión a sticker, se envía como imagen en su lugar')
+m.reply('Konversi ke kesalahan stiker, akan dikirim sebagai gambar sebagai gantinya')
 await conn.sendFile(m.chat, apiUrl, 'smaker.png', null, m)
 }}
 handler.help = ['smaker']
 handler.tags = ['sticker']
 handler.command = ['stickmaker', 'stickermaker', 'smaker'] 
-handler.diamond = true
+handler.limit = true
 
 export default handler

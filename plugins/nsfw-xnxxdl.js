@@ -4,26 +4,26 @@ import fg from 'api-dylux'
 let handler = async (m, { conn, args, text, usedPrefix, command }) => {
 
  let chat = global.db.data.chats[m.chat]
-  if (!chat.nsfw) throw `🚫 El grupo no admite contenido nsfw \n\nPara habilitar escriba \n*${usedPrefix}enable* nsfw`
+  if (!chat.nsfw) throw `Grup ini tidak mendukung konten nsfw!\n\nUntuk mengaktifkan ketik:\n*${usedPrefix}enable* nsfw`
   let user = global.db.data.users[m.sender].age
-  if (user < 17) throw `❎ Eres menor de edad! vuelve cuando tengas más de 18 años`
-  if (!text) throw `✳️ Para buscar\n📌 Use : *${usedPrefix + command} <search>*\n\nPara descargar desde URL:\n📌Use : *${usedPrefix + command} <url>*`
+  if (user < 17) throw `Kamu masih di bawah umur! Kembalilah saat kamu berusia di atas 18 tahun`
+  if (!text) throw `Untuk mencari\nGunakan : *${usedPrefix + command} <search>*\n\nUntuk mengunduh dari URL:\nGunakan : *${usedPrefix + command} <url>*`
     
     m.react(rwait)
     if (text.includes('http://') || text.includes('https://')) {
-        if (!text.includes('xnxx.com')) return m.reply(`❎ Ingrese un link de *xnxx.com*`)
+        if (!text.includes('xnxx.com')) return m.reply(`❎ Masukkan tautan ke *xnxx.com*`)
         try {
             let xn = await fg.xnxxdl(text)
             conn.sendFile(m.chat, xn.result.files.high, xn.result.title + '.mp4', `
 ≡  *XNXX DL*
             
-▢ *📌Título*: ${xn.result.title}
-▢ *⌚Duración:* ${xn.result.duration}
-▢ *🎞️Calidad:* ${xn.result.quality}
+▢ *📌 Judul*: ${xn.result.title}
+▢ *⌚ Durasi:* ${xn.result.duration}
+▢ *🎞️ Kualitas:* ${xn.result.quality}
 `.trim(), m, false, { asDocument: chat.useDocument })
  m.react(done)
  } catch (e) {
-    m.reply(`🔴 Error : intenta mas tarde`)
+    m.reply(`🔴 Kesalahan: Coba lagi nanti`)
  }
     } else {
         try {
@@ -31,7 +31,7 @@ let handler = async (m, { conn, args, text, usedPrefix, command }) => {
             let ff = res.result.map((v, i) => `${i + 1}┃ *Titulo* : ${v.title}\n*Link:* ${v.link}\n`).join('\n') 
               if (res.status) m.reply(ff)
             } catch (e) {
-              m.reply(`🔴 Error: intenta mas tarde`)
+              m.reply(`🔴 Kesalahan: Coba Lagi Nanti`)
                }
     }
 }

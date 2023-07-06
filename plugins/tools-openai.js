@@ -1,22 +1,16 @@
-
-import cheerio from 'cheerio'
-import gpt from 'api-dylux'
-let handler = async (m, { conn, text }) => {
-	
-if (!text) throw `✳️ Ingresa el texto`
-m.react('💬')
-
-	try {
-        let syms = `Eres DyLux Bot, un gran modelo de lenguaje entrenado por OpenAI. Siga cuidadosamente las instrucciones del usuario. Responde usando Markdown.`
-        let res = await gpt.ChatGpt(text, syms)
-         await m.reply(res.text)
-	} catch {
-		m.reply(`❎ Error: intenta más tarde`)
-	}
-
+let fetch = require('node-fetch')
+let handler = async (m, { text }) => {
+  let msg = text.trim()
+  if (!msg) throw m.reply('Silakan masukkan pertanyaanmu!')
+  m.reply(wait)
+  let res = await fetch(`https://api.sazumiviki.me/api/openai?text=${encodeURIComponent(msg)}`)
+  let json = await res.json()
+  if (json.result) m.reply(json.result)
+  else throw json
 }
-handler.help = ['ia <text>']
-handler.tags = ['tools']
-handler.command = ['ia', 'ai', 'chatgpt', 'openai', 'gpt']
 
-export default handler
+handler.help = ['ai <pertanyaan>']
+handler.tags = ['internet']
+handler.command = /^ai/i
+
+module.exports = handler

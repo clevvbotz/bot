@@ -12,9 +12,9 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
     let q = m.quoted ? m.quoted : m
     let mime = (q.msg || q).mimetype || q.mediaType || ''
     if (/webp|image|video/g.test(mime)) {
-      if (/video/g.test(mime)) if ((q.msg || q).seconds > 11) return m.reply('Máximo 10 segundos')
+      if (/video/g.test(mime)) if ((q.msg || q).seconds > 11) return m.reply('Maksimal 10 detik')
       let img = await q.download?.()
-      if (!img) throw `✳️ Responde a una imagen o video con*${usedPrefix + command}*`
+      if (!img) throw `Harap balas gambar atau video dengan *${usedPrefix + command}*`
       let out
       try {
         stiker = await sticker(img, false, f, g)
@@ -31,14 +31,14 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
       }
     } else if (args[0]) {
       if (isUrl(args[0])) stiker = await sticker(false, args[0], global.packname, global.author)
-      else return m.reply('URL invalido')
+      else return m.reply('URL invalid!')
     }
   } catch (e) {
     console.error(e)
     if (!stiker) stiker = e
   } finally {
     if (stiker) conn.sendFile(m.chat, stiker, 'sticker.webp', '', m, null, rpl)
-    else throw 'La conversión ha fallado, intenta enviar primero *imagen/video/gif* y luego responde con el comando'
+    else throw 'Konversi gagal, coba kirim *gambar/video/gif* terlebih dahulu, lalu balas dengan perintah'
   }
 }
 handler.help = ['sticker']

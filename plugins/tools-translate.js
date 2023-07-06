@@ -1,16 +1,16 @@
 
-import { translate } from '@vitalets/google-translate-api'
+import translate from '@vitalets/google-translate-api'
 const defaultLang = 'es'
 const tld = 'cn'
 
 let handler = async (m, { args, usedPrefix, command }) => {
     let err = `
-📌 *Ejemplo:*
+*Contoh:*
 
-*${usedPrefix + command}* <idioma> [texto]
+*${usedPrefix + command}* <bahasa> [teks]
 *${usedPrefix + command}* es Hello World
 
-≡ *Lista de idiomas admitidos:* 
+≡ *Daftar bahasa yang didukung:* 
 
 https://cloud.google.com/translate/docs/languages
 `.trim()
@@ -31,8 +31,8 @@ https://cloud.google.com/translate/docs/languages
     } 
 
 }
-handler.help = ['trad <leng> <text>']
+handler.help = ['translate <lang> <text>']
 handler.tags = ['tools']
-handler.command = ['translate', 'tl', 'trad', 'tr']
+handler.command = ['translate', 'tl', 'tr']
 
 export default handler
